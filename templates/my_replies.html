@@ -1,0 +1,50 @@
+{% extends 'flatpages/default.html' %}
+
+
+{% block title %}
+Мои отклики
+{% endblock title %}
+
+{% block content %}
+    {% for reply in replies %}
+        <table>
+            <tr>
+                <td> Объявление </td>
+                <td> Дата отклика </td>
+                <td> Текст </td>
+            </tr>
+            <tr>
+                <td>{{ reply.ads.title }}</td>
+                <td>{{ reply.time_created|date:'M d Y' }}</td>
+                <td>{{ reply.text }}</td>
+                <td><a href="{% url 'reply_confirmed' reply.id %}">Принять</a></td>
+                <td><a href="{% url 'reply_delete' pk=reply.pk %}">Отклонить</a></td>
+            </tr>
+        </table>
+<br>
+<br>
+    {% empty %}
+      <p>Нет откликов.</p>
+    {% endfor %}
+
+
+   {% if page_obj.has_previous %}
+       <a href="?page=1">1</a>
+       {% if page_obj.previous_page_number != 1 %}
+           ...
+           <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+       {% endif %}
+   {% endif %}
+
+   {{ page_obj.number }}
+
+   {% if page_obj.has_next %}
+       <a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+       {% if paginator.num_pages != page_obj.next_page_number %}
+           ...
+           <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+       {% endif %}
+   {% endif %}
+<br>
+<br>
+{% endblock content %}

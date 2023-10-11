@@ -1,0 +1,54 @@
+{% extends 'flatpages/default.html' %}
+{% load custom_tags %}
+{% block title %}
+Ads.title
+{% endblock title %}
+
+{% block content %}
+
+<h1>Объявления: {{ ads_list|length }}</h1>
+    {% if ads_list %}
+        <table>
+            <tr>
+                <td> Заголовок </td>
+                <td> Дата </td>
+                <td> Текст </td>
+                <td> Категория </td>
+            </tr>
+
+            {% for ads in ads_list %}
+            <tr>
+                <td><a href="ads/{{ ads.id }}">{{ ads.title }}</a></td>
+                <td>{{ ads.time_created|date:'M d Y' }}</td>
+                <td>{{ ads.content|truncatechars:20 }}</td>
+                <td>
+                    {% for category in ads.category.all %}
+                        <a href="{% url 'category_list' category.id %}">{{ category }}</a>
+                    {% endfor %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <h2>Объвялений нет</h2>
+    {% endif %}
+   {% if page_obj.has_previous %}
+       <a href="?page=1">1</a>
+       {% if page_obj.previous_page_number != 1 %}
+           ...
+           <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+       {% endif %}
+   {% endif %}
+
+   {# Информация о текущей странице #}
+   {{ page_obj.number }}
+
+   {# Информация о следующих страницах #}
+   {% if page_obj.has_next %}
+       <a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+       {% if paginator.num_pages != page_obj.next_page_number %}
+           ...
+           <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+       {% endif %}
+   {% endif %}
+{% endblock content %}

@@ -1,0 +1,14 @@
+{% extends 'flatpages/default.html' %}
+{% block content %}
+{% load static %}
+<h1>Написать отклик</h1>
+<hr>
+<head>
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form.media }}
+    {{ form.as_p }}
+    <input type="submit" value="Save"  />
+</form>
+</head>
+{% endblock content %}

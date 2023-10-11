@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>Здравствуй! Новые объявления за последнюю неделю:</h2>
+<ul>
+    {% for ads in ads_list %}
+        <li><a href="{{ link }}ads/{{ ads.id }}">{{ ads.title }}</a></li>
+    {% endfor %}
+</ul>
+</body>
+</html>
